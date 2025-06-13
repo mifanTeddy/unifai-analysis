@@ -57,7 +57,7 @@ PORT=3000
 - 系统会自动检测 API 密钥格式：
   - `sk-or-v1-` 开头：使用 OpenRouter API
   - `sk-ant-` 开头：直接使用 Anthropic API
-- 如需修改代理地址，请编辑 `src/routes/chat.ts` 和 `src/routes/tokenAnalysis.ts`
+- 如需修改代理地址，请编辑 `.env` 文件中的 `HTTP_PROXY` 和 `HTTPS_PROXY` 变量。
 
 ### 3. 启动服务
 ```bash
