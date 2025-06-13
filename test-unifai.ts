@@ -132,8 +132,8 @@ async function testTask2_TokenAnalysis() {
       },
       body: JSON.stringify({
         query: '请分析 BNB 代币的多维度数据，包括价格走势、市值排名、交易量、技术指标等信息',
-        staticToolkits: ['crypto'],
-        staticActions: ['price_analysis']
+        staticToolkits: ['25'],
+        staticActions: ['analyzeToken']
       })
     });
 
@@ -147,7 +147,7 @@ async function testTask2_TokenAnalysis() {
     console.log('🕒 分析时间:', analysisData.timestamp);
 
     // 验证是否包含 HTML 内容
-    if (analysisData.result && analysisData.result.includes('<html>')) {
+    if (analysisData.url && analysisData.url.endsWith('.html')) {
       console.log('✅ HTML 报告格式验证通过');
     } else {
       console.log('⚠️ 结果不是 HTML 格式，但分析完成');
