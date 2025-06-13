@@ -182,6 +182,12 @@ router.post(
             logger.info("🔄 转换模型名称", { original: model, actual: actualModel });
           }
 
+          const headers: any = {};
+          if (model.includes("claude")) {
+            headers["anthropic-beta"] =
+                "prompt-caching-2024-07-31,token-efficient-tools-2024-10-15";
+          }
+
           // 向大模型发送请求
           const response = await client.chat.completions.create({
             model: actualModel,
@@ -196,7 +202,7 @@ router.post(
             top_p: otherParams.top_p,
             n: otherParams.n,
             user: otherParams.user,
-          });
+          },{ headers });
 
           logger.info("🤖 LLM 响应:", { response: response.choices[0] });
 
