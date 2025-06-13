@@ -145,8 +145,8 @@ curl -X POST http://localhost:3000/v1/tokenAnalysis/analyze \
   -H "Content-Type: application/json" \
   -d '{
     "query": "请分析 BNB 代币的多维度数据，包括价格走势、市值排名、交易量、技术指标等信息",
-    "staticToolkits": ["crypto"],
-    "staticActions": ["price_analysis"]
+    "staticToolkits": ["25"],
+    "staticActions": ["analyzeToken"]
   }'
 ```
 

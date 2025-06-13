@@ -4,6 +4,9 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 import { unifaiService } from "../services/unifai";
 import { logger } from "../utils/logger";
 import { dbService } from "../services/database";
+import {uuidv4} from "zod/v4";
+import path from "path";
+import fs from "fs";
 
 const router: Router = Router();
 
@@ -166,9 +169,31 @@ router.post('/analyze', async (req: Request, res: Response) => {
       stream: false,
     });
 
+    const fileName = `analysis-${Date.now()}-${Math.random().toString(36).substr(2, 9)}.html`;
+    const filePath = path.join(__dirname, '../../public', fileName);
+
+    const completeHtml = `
+<!DOCTYPE html>
+<html lang="zh">
+    ${result}
+</html>`.trim();
+
+    fs.writeFile(filePath, completeHtml, (err) => {
+        if (err) {
+            logger.error("写入静态页面失败:", err);
+            return res.status(500).json({
+            error: "生成静态页面失败",
+            details: err.message
+            });
+        }
+        logger.info("静态页面生成成功:", filePath);
+    });
+
+    const publicUrl = `${req.protocol}://${req.get('host')}/public/${fileName}`;
+
     res.json({
       success: true,
-      result,
+      url:publicUrl,
       timestamp: new Date().toISOString()
     });
 
